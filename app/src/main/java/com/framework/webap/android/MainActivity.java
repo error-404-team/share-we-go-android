@@ -10,6 +10,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+
 import java.util.prefs.Preferences;
 
 public class MainActivity extends Activity {
@@ -26,7 +27,7 @@ public class MainActivity extends Activity {
 
         setUpWebViewDefaults(mWebView);
 
-        mWebView.loadUrl("https://www.cam-recorder.com/");
+        mWebView.loadUrl("https://error-404-team.github.io/share-to-go-ui/");
 
         mWebView.setWebChromeClient(new WebChromeClient() {
 
@@ -37,7 +38,7 @@ public class MainActivity extends Activity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        if(request.getOrigin().toString().equals("https://www.cam-recorder.com/")) {
+                        if(request.getOrigin().toString().equals("https://error-404-team.github.io/share-to-go-ui/")) {
                             request.grant(request.getResources());
                         } else {
                             request.deny();
