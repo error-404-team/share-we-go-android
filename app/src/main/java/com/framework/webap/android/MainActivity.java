@@ -1,14 +1,17 @@
 package com.framework.webap.android;
 
+import android.Manifest;
 import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
 import android.webkit.CookieManager;
+import android.support.v4.app.ActivityCompat;
 import android.webkit.PermissionRequest;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.webkit.GeolocationPermissions;
 
 
 import java.util.prefs.Preferences;
@@ -29,9 +32,17 @@ public class MainActivity extends Activity {
 
         mWebView.loadUrl("https://error-404-team.github.io/share-to-go-ui/");
 
+        ActivityCompat.requestPermissions(this, new String[]{
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+        }, 0);
+
         mWebView.setWebChromeClient(new WebChromeClient() {
 
-
+            @Override
+            public void onGeolocationPermissionsShowPrompt(String origin, GeolocationPermissions.Callback callback) {
+                callback.invoke(origin, true, false);
+            }
 
             @Override
             public void onPermissionRequest(final PermissionRequest request) {
