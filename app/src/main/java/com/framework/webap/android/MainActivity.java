@@ -5,11 +5,7 @@ import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
 import android.webkit.CookieManager;
-<<<<<<< HEAD
-import android.location.LocationManager;
-=======
 import android.support.v4.app.ActivityCompat;
->>>>>>> ebb5918604e9ae5a0e8e2432eba0153c7071c29b
 import android.webkit.PermissionRequest;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -22,7 +18,6 @@ import java.util.prefs.Preferences;
 public class MainActivity extends Activity {
 
     private WebView mWebView;
-    private LocationManager locationManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +27,6 @@ public class MainActivity extends Activity {
         mWebView = (WebView) findViewById(R.id.fragment_main_webview);
 
         setUpWebViewDefaults(mWebView);
-        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
         mWebView.loadUrl("https://error-404-team.github.io/share-to-go-ui/");
 
