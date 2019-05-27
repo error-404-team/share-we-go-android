@@ -28,7 +28,7 @@ public class MainActivity extends Activity {
 
         setUpWebViewDefaults(mWebView);
 
-        mWebView.loadUrl("https://error-404-team.github.io/share-to-go-ui/");
+        mWebView.loadUrl("https://3000-dot-3945732-dot-devshell.appspot.com/");
 
         ActivityCompat.requestPermissions(this, new String[]{
                 Manifest.permission.ACCESS_FINE_LOCATION,
@@ -47,7 +47,7 @@ public class MainActivity extends Activity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        if(request.getOrigin().toString().equals("https://error-404-team.github.io/share-to-go-ui/")) {
+                        if(request.getOrigin().toString().equals("https://3000-dot-3945732-dot-devshell.appspot.com/")) {
                             request.grant(request.getResources());
                         } else {
                             request.deny();
