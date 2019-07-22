@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
 import android.webkit.CookieManager;
 import android.support.v4.app.ActivityCompat;
 import android.webkit.PermissionRequest;
@@ -15,9 +16,46 @@ import android.webkit.GeolocationPermissions;
 
 import java.util.prefs.Preferences;
 
+
+
 public class MainActivity extends Activity {
 
     private WebView mWebView;
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus) {
+            hideSystemUI();
+        }
+    }
+
+    private void hideSystemUI() {
+        // Enables regular immersive mode.
+        // For "lean back" mode, remove SYSTEM_UI_FLAG_IMMERSIVE.
+        // Or for "sticky immersive," replace it with SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+        View decorView = getWindow().getDecorView();
+        decorView.setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_IMMERSIVE
+                        // Set the content to appear under the system bars so that the
+                        // content doesn't resize when the system bars hide and show.
+                        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        // Hide the nav bar and status bar
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_FULLSCREEN);
+    }
+
+    // Shows the system bars by removing all the flags
+// except for the ones that make the content appear under the system bars.
+    private void showSystemUI() {
+        View decorView = getWindow().getDecorView();
+        decorView.setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +66,7 @@ public class MainActivity extends Activity {
 
         setUpWebViewDefaults(mWebView);
 
-        mWebView.loadUrl("https://3000-dot-3945732-dot-devshell.appspot.com/");
+        mWebView.loadUrl("https:/share-we-go.web.app/");
 
         ActivityCompat.requestPermissions(this, new String[]{
                 Manifest.permission.ACCESS_FINE_LOCATION,
@@ -47,7 +85,7 @@ public class MainActivity extends Activity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        if(request.getOrigin().toString().equals("https://3000-dot-3945732-dot-devshell.appspot.com/")) {
+                        if(request.getOrigin().toString().equals("https://share-we-go.web.app/")) {
                             request.grant(request.getResources());
                         } else {
                             request.deny();
@@ -71,13 +109,23 @@ public class MainActivity extends Activity {
 
         // Enable pinch to zoom without the zoom buttons
         settings.setBuiltInZoomControls(true);
+        settings.setGeolocationEnabled(true);
+        settings.setSupportMultipleWindows(true);
+        settings.setJavaScriptCanOpenWindowsAutomatically(true);
+        settings.setUseWideViewPort(true);
+        settings.setLoadWithOverviewMode(true);
+        settings.setAllowContentAccess(true);
+        settings.setDatabaseEnabled(true);
+        settings.setLoadsImagesAutomatically(true);
 
         // Allow use of Local Storage
         settings.setDomStorageEnabled(true);
+        settings.setUserAgentString("Mozilla/5.0 (Linux; Android 5.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Mobile Safari/537.36");
 
         if(Build.VERSION.SDK_INT > Build.VERSION_CODES.HONEYCOMB) {
             // Hide the zoom controls for HONEYCOMB+
             settings.setDisplayZoomControls(false);
+            settings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
         }
 
         // Enable remote debugging via chrome://inspect
